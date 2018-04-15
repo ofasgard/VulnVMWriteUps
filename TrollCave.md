@@ -93,6 +93,8 @@ Checking the contents of `/tmp` confirmed that my code had executed. I was able 
 
 Here is the contents of the flag file, for proof:
 
->! c0db34ce8adaa7c07d064cc1697e3d7cb8aec9d5a0c4809d5a0c4809b6be23044d15379c5
+>c0db34ce8adaa7c07d064cc1697e3d7cb8aec9d5a0c4809d5a0c4809b6be23044d15379c5
 
 ## Afterword
+
+The style of this vulnerable VM is very similar to many of the medium-difficulty OSCP labs. Although it followed a somewhat predictable pattern, I nonetheless found that it was entertaining. The VM was also pretty stable - despite mucking around quite a bit with blog and user creation while experimenting, I didn't have any trouble with the web application or the VM itself. All in all, the challenge took me around 4 hours to complete.
