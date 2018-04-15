@@ -14,4 +14,16 @@ The results were pretty simple: two services accessible to the outside world on 
 
 This challenge relies heavily on its hints, especially in the web app exploitation phase. Pretty much every stage includes some kind of hint in the form of a blog post. Some of them were red herrings (unless I missed something), but I'll cover that later. The interesting tidbit that leads you to your first win is a blog post about password resets by "coderguy", the site developer. He doesn't tell you exactly where to look for the password reset functionality - and there's no links to it anywhere. What he does say, however, is that there is a `password_resets` resource in use.
 
-A little bit of intuition or an understanding of the way Ruby on Rails resources are set up is required here. The resource he's referring to is at `/password_resets/new`.
+A little bit of intuition or an understanding of the way Ruby on Rails resources are set up is required here. The resource he's referring to is at `/password_resets/new`. Here we'll find a lovely unauthenticated form that lets us reset the password of any regular user - moderators and admins are out of our grasp, but this was enough for me to reset the password of 'xer', one of the regular members on the site.
+
+## Escalating from Regular Member
+
+While I was doing this challenge, I was very focussed on a particular comment made by King, the site superadmin:
+
+`I promise to read every blog restricted to my access level, no matter how creepy. `
+
+See, every user has the ability to create blogs, and every blog has an access level. Regular users only have access levels 0 and 1; which are "everyone can see it" and "only members can see it", respectively. King has an access level of 5, but a regular user can't create a blog at that level - not even by fiddling with the POST parameters, as I found out. In the end, making a level 5 blog and performing a client-side attack wasn't the answer, but it kept me going for a good while.
+
+Either way, the next step for me was to get one of those fancy moderator accounts. Besides King, one other user had dropped a hint about monitoring the website - "cooldude89", a Moderator user. He had created a thread about politics and religion, and promised to constantly watch it to make sure no trolls derail the debate. Taking this as an invitation for a client side attack, I set about searching for XSS.
+
+Although there is a rudimentary WAF in place, circumventing it didn't take much. The `<script>` tag is filtered out of any post or comment, but all you need to do is include an attribute (i.e. `<script id=test>`) and it will go through.
