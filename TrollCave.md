@@ -64,14 +64,14 @@ With SSH access, we are in the endgame. All that is left is to poke around until
 
 Specifically, the code we're interested in looks like this:
 
-`function calc(pathname, request, query, response)
+~~~function calc(pathname, request, query, response)
 {
         sum = query.split('=')[1];
         console.log(sum)
         response.writeHead(200, {"Content-Type": "text/plain"});
 
         response.end(eval(sum).toString());
-}`
+}~~~
 
 If we can get king to run this file, we can probably leverage it for code execution.
 
