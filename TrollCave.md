@@ -11,3 +11,5 @@ After importing and setting up the VM on a host-only network and confirming that
 The results were pretty simple: two services accessible to the outside world on ports 22 and 80. After examining the OpenSSH running on port 22 and concluding that I wouldn't find an easy way in there, I proceeded to the webserver. It's a fairly simple community blogging platform, complete with the usual jabs at humour ("God himself couldn't hack this site. - dragon, site admin"). There's a lot going on here, but very little is accessible without an account - which is problematic, since registration seems to be closed.
 
 ## From Anonymous to Member
+
+This challenge relies heavily on its hints, especially in the web app exploitation phase. Pretty much every stage includes some kind of hint in the form of a blog post. Some of them were red herrings (unless I missed something), but I'll cover that later. The interesting tidbit that leads you to your first win is a blog post about password resets by "coderguy", the site developer.
