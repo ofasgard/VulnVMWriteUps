@@ -60,7 +60,7 @@ Once I had uploaded my public key to the server, I was able to SSH in as the `ra
 
 ## Escalating to Root
 
-With SSH access, we are in the endgame. All that is left is to poke around until we find something that will allow us to escalate our privileges. The fact that all the directories in `/home/` are world-readable raised immediate red flags. Most of the home directories are empty, but the `king` user has an interesting file called `calc.js`. This is a node.js that runs locally on port 8888 and performs simple math using the eval() function. To make things even easier, the `child_process` module of node.js is already imported - giving us access to the exec() command. 
+With SSH access, we are in the endgame. All that is left is to poke around until we find something that will allow us to escalate our privileges. The fact that all the directories in `/home/` are world-readable raised immediate red flags. Most of the home directories are empty, but the `king` user has an interesting file called `calc.js`. This is a node.js server that runs locally on port 8888 and performs simple math using the eval() function. To make things even easier, the `child_process` module of node.js is already imported - giving us access to the exec() command. 
 
 Specifically, the code we're interested in looks like this:
 
