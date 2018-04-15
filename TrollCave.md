@@ -75,9 +75,9 @@ function calc(pathname, request, query, response)
 }
 ```
 
-It's very simple: whatever gets passed as a GET paramet is fed directly into eval(). If we can get king to run this file, we can probably leverage it for code execution.
+It's very simple: whatever gets passed as a GET parameter is fed directly into eval(). If we can get `king` to run this file, we can probably leverage it for code execution.
 
-As it turned out, we don't need to "get king to run this file" - it's already running. A simple `netstat -antp` revealed that port 8888 is already listening; it's just not accessible to the outside world. That's not a problem for us, though, since we already have SSH access to the server. I confirmed it was working from the `rails` account with a simple curl command:
+As it turned out, we don't need to "get `king` to run this file" - it's already running. A simple `netstat -antp` revealed that port 8888 is already listening; it's just not accessible to the outside world. That's not a problem for us, though, since we already have SSH access to the server. I confirmed it was working from the `rails` account with a simple curl command:
 
 `curl http://127.0.0.1:8888/calc?sum=5-5`
 
@@ -85,7 +85,7 @@ This returned 0, as we would expect it to. All that is left is to craft an explo
 
 ```
 $ echo "touch /tmp/test.txt" > /tmp/king.sh
-$ chmod +x /tmp/king.hs
+$ chmod +x /tmp/king.sh
 $ curl "http://127.0.0.1:8888/calc?sum=exec('/tmp/king.sh')"
 ```
 
