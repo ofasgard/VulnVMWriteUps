@@ -57,3 +57,26 @@ This could be useful in the future, but first we need to see just what we can do
 Once again, some intuition is required. We know there is a `rails` user, and we can deduce that's who the webserver is running as. So getting shell access is as simple as writing our public key to `/home/rails/.ssh/authorized_keys`. The only difficult part is guessing that it's possible to do that in the first place. There may be other routes to getting generic code execution - after all, generic file write is a powerful tool.
 
 Once I had uploaded my public key to the server, I was able to SSH in as the `rails` user.
+
+## Escalating to Root
+
+With SSH access, we are in the endgame. All that is left is to poke around until we find something that will allow us to escalate our privileges. The fact that all the directories in `/home/` are world-readable raised immediate red flags. Most of the home directories are empty, but the `king` user has an interesting file called `calc.js`. This is a node.js that runs locally on port 8888 and performs simple math using the eval() function. To make things even easier, the `child_process` module of node.js is already imported - giving us access to the exec() command. 
+
+Specifically, the code we're interested in looks like this:
+
+`function calc(pathname, request, query, response)
+{
+        sum = query.split('=')[1];
+        console.log(sum)
+        response.writeHead(200, {"Content-Type": "text/plain"});
+
+        response.end(eval(sum).toString());
+}`
+
+If we can get king to run this file, we can probably leverage it for code execution.
+
+As it turned out, we don't need to "get king to run this file" - it's already running. A simple `netstat -antp` revealed that port 8888 is already listening; it's just not accessible to the outside world. That's not a problem for us, though, since we already have SSH access to the server. I confirmed it was working from the `rails` account with a simple curl command:
+
+`curl http://127.0.0.1:8888/calc?sum=5-5`
+
+This returned 0, as we would expect it to. All that is left is to craft a
