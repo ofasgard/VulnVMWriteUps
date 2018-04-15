@@ -36,7 +36,7 @@ All I needed on the backend was a simple little Python script to collect the coo
 
 Above the role of moderator, there were two roles I didn't yet have access to: admin and superadmin. Once again, the blogs provided a valuable hint. This time, it came in the form of a blog post visible only to moderators that documents a "promote" functionality. Basically, any moderator can "promote" any regular member into a moderator. This is handy for escalating xer into a mod so I don't have to modify a cookie every time I want to log in, but it doesn't help me get to admin... or does it?
 
-When you promote someone to moderator, a POST request is made to a URI that looks something like `/users/12/mod`. After you've promoted them, the "mod" button goes away. This stops you from promoting someone who has already been promoted - but what if you just replay the POST request? By making a request to promote someone who is already a moderator, it is possible to promote them into an admin. The only catch is that you can't do it to yourself - so I promoted xer into a mod, then an admin.
+When you promote someone to moderator, a POST request is made to a URI that looks something like `/users/12/mod`. After you've promoted them, the "mod" button goes away. This client-side control is intended to stop you from promoting someone who has already been promoted - but what if you just replay the POST request? By making a request to promote someone who is already a moderator, it is possible to promote them into an admin. The only catch is that you can't do it to yourself - so I promoted xer into a mod, then an admin.
 
 ## Escalating from Admin
 
