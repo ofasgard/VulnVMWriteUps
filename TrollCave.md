@@ -50,8 +50,6 @@ Armed with the password, I was able to log in to King.
 
 Obviously, the first thing I did as King was to re-enable the file upload functionality. The second was to look at the blogs for any new hints. Unsurprisingly, I found one:
 
-`hey man, if i'm going to be doing much more work on the site i'm really going to need sudo access. also i don't know how good an idea it is for me to be using the rails user interactively, maybe we oughta separate that
-
-i'm dreaming of coderguy in /etc/sudoers...`
+`hey man, if i'm going to be doing much more work on the site i'm really going to need sudo access. also i don't know how good an idea it is for me to be using the rails user interactively, maybe we oughta separate that`
 
 This could be useful in the future, but first we need to see just what we can do with the file upload function. As it turns out, it's pretty trivial to exploit - you can specify any path accessible to the web application, and your file will be uploaded there. So if you enter `/var/www/public/test.txt`, a file will be written there. You don't even need the usual directory traversal tricks. Trying to write a file to somewhere you don't have access to simply results in a generic rails 500 error.
