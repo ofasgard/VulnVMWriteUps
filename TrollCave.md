@@ -41,3 +41,17 @@ When you promote someone to moderator, a POST request is made to a URI that look
 ## Escalating from Admin
 
 Only one hurdle remains: the superadmin account. There is only one superadmin: King. As before, Trollcave has a hint for us. I had suspected that the file upload functionality - which is disabled - would eventually be how I got code execution. This was all but confirmed by an admin-only post which indicated that it was disabled due to "security concerns", and that only the superadmin could enable it. Another admin-only blog post informed us that King has quit to "find himself", and that dragon has taken his account - so we need to escalate laterally to his account. Whoever has King has access to the file upload functionality, which is the way in.
+
+So, we need to get from one admin account to another. Luckily, the client-side validation on the "promote" functionality comes to the rescue again. There is an "unmod" button which removes admin or moderator status, and can be abused in a similar way to the "mod" button. Using this, I was able to demote dragon down to a regular user, then reset his password. I could have promoted him back up to admin, but it wasn't necessary in the end - his "access" to the King account comes in the form of a message in his inbox containing King's password.
+
+Armed with the password, I was able to log in to King.
+
+## Getting Shell Access
+
+Obviously, the first thing I did as King was to re-enable the file upload functionality. The second was to look at the blogs for any new hints. Unsurprisingly, I found one:
+
+`hey man, if i'm going to be doing much more work on the site i'm really going to need sudo access. also i don't know how good an idea it is for me to be using the rails user interactively, maybe we oughta separate that
+
+i'm dreaming of coderguy in /etc/sudoers...`
+
+This could be useful in the future, but first we need to see just what we can do with the file upload function. As it turns out, it's pretty trivial to exploit - you can specify any path accessible to the web application, and your file will be uploaded there. So if you enter `/var/www/public/test.txt`, a file will be written there. You don't even need the usual directory traversal tricks. Trying to write a file to somewhere you don't have access to simply results in a generic rails 500 error.
