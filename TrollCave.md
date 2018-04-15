@@ -53,3 +53,7 @@ Obviously, the first thing I did as King was to re-enable the file upload functi
 `hey man, if i'm going to be doing much more work on the site i'm really going to need sudo access. also i don't know how good an idea it is for me to be using the rails user interactively, maybe we oughta separate that`
 
 This could be useful in the future, but first we need to see just what we can do with the file upload function. As it turns out, it's pretty trivial to exploit - you can specify any path accessible to the web application, and your file will be uploaded there. So if you enter `/var/www/public/test.txt`, a file will be written there. You don't even need the usual directory traversal tricks. Trying to write a file to somewhere you don't have access to simply results in a generic rails 500 error.
+
+Once again, some intuition is required. We know there is a `rails` user, and we can deduce that's who the webserver is running as. So getting shell access is as simple as writing our public key to `/home/rails/.ssh/authorized_keys`. The only difficult part is guessing that it's possible to do that in the first place. There may be other routes to getting generic code execution - after all, generic file write is a powerful tool.
+
+Once I had uploaded my public key to the server, I was able to SSH in as the `rails` user.
