@@ -8,7 +8,7 @@ As with many traditional wargaming VMs, your objective is simple: gain access to
 
 After importing and setting up the VM on a host-only network and confirming that it had obtained an IP address properly, I was ready to begin poking at it. Knowing nothing about the system or what I was in for, I started with a simple netdiscover to find it on the local network, followed by a quick NMap scan to see which ports are open.
 
-The results were pretty simple: two services accessible to the outside world on ports 22 and 80. After examining the OpenSSH running on port 22 and concluding that I wouldn't find an easy way in there, I proceeded to the webserver. It's a fairly simple community blogging platform running Rails, complete with the usual capture the flag humour ("God himself couldn't hack this site. - dragon, site admin"). There's a lot going on here, but very little is accessible without an account - which is problematic, since registration seems to be closed. The first step, then, is to get our hands on one.
+The results were pretty simple: two services accessible to the outside world on ports 22 and 80. After examining the OpenSSH running on port 22 and concluding that I wouldn't find an easy way in there, I proceeded to the webserver. It's a fairly simple community blogging platform running Rails, complete with the kind of humour we've come to expect from CTF challenges ("God himself couldn't hack this site. - dragon, site admin"). There's a lot going on here, but very little is accessible without an account - which is problematic, since registration seems to be closed. The first step, then, is to get our hands on one.
 
 ## Escalating from Guest User
 
