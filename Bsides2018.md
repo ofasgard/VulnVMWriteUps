@@ -70,4 +70,4 @@ Since it was so easy, I decided to poke around a bit to find other ways to gain 
 
 * /backup_wordpress on the server is running an old and outdated version of WordPress, which is vulnerable to RCE via PHPMailer amongst other things. The RCE vulnerability is trivially exploited just by modifying your Host header when resetting a user's password.
 
-* The wordpress installation can also be bruteforced fairly easily.
+* The wordpress installation can also be bruteforced fairly easily. Valid users include "john" and "admin". From here, you can get code execution by uploading a PHP shell. With a shell as the `www-data` user, it's highly likely that you can leverage the issues detected by LinEnum to escalate to root without too much difficulty.
