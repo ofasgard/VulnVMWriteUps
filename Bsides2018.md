@@ -28,7 +28,7 @@ anne
 doomguy
 ```
 
-As I noted above, access to the FTP server is anonymous-only, so that leaves us with SSH or HTTP as the platform for these users. Although the robots.txt on the (blank) HTTP server did indicate the presence of a WordPress installation at `/backup_wordpress`, I decided to give SSH a quick try before moving on.
+As I noted above, access to the FTP server is anonymous-only, so that leaves us with SSH or HTTP as the platform for these users. Although the robots.txt on the HTTP server did indicate the presence of a WordPress installation at `/backup_wordpress`, I decided to give SSH a quick try before moving on.
 
 ## The SSH Server
 
