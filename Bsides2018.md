@@ -1,6 +1,6 @@
 # BSides 2018 Vulnerable VM
 
-The BSides Vancouver 2018 VM, which is available [here](https://www.vulnhub.com/entry/bsides-vancouver-2018-workshop,231/) was deceptively easy. Although there are multiple routes by which you can complete the VM - for the completionists amongst us - I would still definitely categorise it as a beginner's challenge. All in all, it took about 15-30 minutes to go from installation to the point where I was done with it.
+The BSides Vancouver 2018 VM, which is available [here](https://www.vulnhub.com/entry/bsides-vancouver-2018-workshop,231/), was a lot easier than I expected - even for an entry-level VM! Although there are multiple routes by which you can complete it - for the completionists amongst us - I would still definitely categorise it as a beginner's challenge. All in all, it took about 15-30 minutes to go from installation to the point where I was done with it.
 
 ## Getting Started
 
