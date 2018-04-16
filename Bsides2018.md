@@ -14,7 +14,7 @@ PORT   STATE SERVICE VERSION
 80/tcp open  http    Apache httpd 2.2.22 ((Ubuntu))
 ```
 
-Right off the bat, there are a lot of interesting services here. There are a plethora of vulnerabilities associated with the (outdated) software indicated by NMap's banner grabbing, but none of them seemed like an easy win. I opted instead to poke around the FTP and HTTP servers.
+Right off the bat, there are a lot of interesting services here. There are a plethora of vulnerabilities associated with the (outdated) software indicated by NMap's banner grabbing, but none of them seemed like an easy win. I opted instead to poke around the content of these three services.
 
 ## The FTP Server
 
