@@ -6,7 +6,7 @@ The BSides Vancouver 2018 VM, which is available [here](https://www.vulnhub.com/
 
 As always, my first step was to find the machine on my network with `netdiscover` and then run an NMap scan. I opted for a more complete scan to get a good picture of what I was dealing with:
 
-`nmap -T5 -sV -O -sT 192.168.56.101`
+`$ nmap -T5 -sV -O -sT 192.168.56.101`
 ```
 PORT   STATE SERVICE VERSION
 21/tcp open  ftp     vsftpd 2.3.5
@@ -14,31 +14,45 @@ PORT   STATE SERVICE VERSION
 80/tcp open  http    Apache httpd 2.2.22 ((Ubuntu))
 ```
 
-Right off the bat, there are a lot of interesting services here.
+Right off the bat, there are a lot of interesting services here. There are a plethora of vulnerabilities associated with the (outdated) software indicated by NMap's banner grabbing, but none of them seemed like an easy win. I opted instead to poke around the FTP and HTTP servers.
 
-## Notes
+## The FTP Server
 
-Apache is default content. FTP server anonymous webroot has no write access, but there is a public directory containing a backup of usernames.
+Running on VSFTPD, the FTP server on port 21 is a very simple installation. Access is anonymous-only, and the anonymous user has no ability to write files - as we would expect. However, the public folder contains a backup file, `users.txt.bk`, which gives us a list of users on the box. 
 
+```
 abatchy
 john
 mai
 anne
 doomguy
+```
 
-I'm guessing I'm supposed to bruteforce? The FTP server is anonymous-only, so I am probably supposed to bruteforce SSH logins.
+As I noted above, access to the FTP server is anonymous-only, so that leaves us with SSH or HTTP as the platform for these users. Although the robots.txt on the (blank) HTTP server did indicate the presence of a WordPress installation, I decided to give SSH a quick try before moving on.
 
-[ERROR] target ssh://192.168.56.101:22/ does not support password authentication.
+## The SSH Server
 
-The only user who is not authenticated via public key is anne. We will try her. Using the rockyou list, we get a hit:
+It didn't take long to narrow down this user list. Of the five users given, all except `anne` do not support password authentication. Running `anne` against the rockyou password list with hydra produce a result within seconds:
 
-DATA] attacking ssh://192.168.56.101:22/
+```
+[DATA] attacking ssh://192.168.56.101:22/
 [22][ssh] host: 192.168.56.101   login: anne   password: princess
+```
 
-We have a shell ;)
+That was easy.
 
-Anne has sudo access, so... I have root? That was easy.
+## Escalating to Root
 
+```
+$ ssh anne@192.168.56.101
+anne@bsides2018:~$ sudo su
+[sudo] password for anne:
+root@bsides2018:/home/anne#
+```
+
+That *was* easy. For proof, here are the contents of `/root/flag.txt`:
+
+```
 Congratulations!
 
 If you can read this, that means you were able to obtain root permissions on this VM.
@@ -48,8 +62,11 @@ There are multiple ways to gain access remotely, as well as for privilege escala
 Did you find them all?
 
 @abatchy17
+```
 
-Since it was so easy, I decided to poke around a bit to find other ways to gain access..
+## Afterword
+
+Since it was so easy, I decided to poke around a bit to find other ways to gain access. I'm sure there are more - LinEnum indicated a number of possible privesc flaws relating to file and folder permissions. A quick five minute search turned up the following:
 
 * /backup_wordpress on the server is running an old and outdated version of WordPress, which is vulnerable to RCE via PHPMailer amongst other things. The RCE vulnerability is trivially exploited just by modifying your Host header when resetting a user's password.
 
