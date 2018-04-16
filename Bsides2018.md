@@ -44,7 +44,6 @@ That was easy.
 ## Escalating to Root
 
 ```
-$ ssh anne@192.168.56.101
 anne@bsides2018:~$ sudo su
 [sudo] password for anne:
 root@bsides2018:/home/anne#
