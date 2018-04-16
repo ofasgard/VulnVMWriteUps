@@ -1,11 +1,22 @@
 # BSides 2018 Vulnerable VM
 
-192.168.56.101
+The BSides Vancouver 2018 VM, which is available [here](https://www.vulnhub.com/entry/bsides-vancouver-2018-workshop,231/) was deceptively easy. Although there are multiple routes by which you can complete the VM - for the completionists amongst us - I would still definitely categorise it as a beginner's challenge. All in all, it took about 15-30 minutes to go from installation to the point where I was done with it.
 
+## Getting Started
+
+As always, my first step was to find the machine on my network with `netdiscover` and then run an NMap scan. I opted for a more complete scan to get a good picture of what I was dealing with:
+
+`nmap -T5 -sV -O -sT 192.168.56.101`
+```
 PORT   STATE SERVICE VERSION
 21/tcp open  ftp     vsftpd 2.3.5
 22/tcp open  ssh     OpenSSH 5.9p1 Debian 5ubuntu1.10 (Ubuntu Linux; protocol 2.0)
 80/tcp open  http    Apache httpd 2.2.22 ((Ubuntu))
+```
+
+Right off the bat, there are a lot of interesting services here.
+
+## Notes
 
 Apache is default content. FTP server anonymous webroot has no write access, but there is a public directory containing a backup of usernames.
 
