@@ -32,7 +32,7 @@ As I noted above, access to the FTP server is anonymous-only, so that leaves us 
 
 ## The SSH Server
 
-It didn't take long to narrow down this user list. Of the five users given, all except `anne` do not support password authentication. Running `anne` against the rockyou password list with hydra produce a result within seconds:
+It didn't take long to narrow down this user list. Of the five users given, all except `anne` do not support password authentication. Running `anne` against the rockyou password list with hydra produced a result within seconds:
 
 ```
 [DATA] attacking ssh://192.168.56.101:22/
