@@ -60,8 +60,8 @@ file=/bin/ls = works
 
 This confirms that I can include a variety of files - but not all of them. Some files I would expect to be able to access, like /etc/passwd and /etc/issue, are not accessible to - indicating that whole directories are out of the question. I also found that a lot of the files and directories I would normally use to get PHP code execution are not available, including:
 
-*/var/log/apache2/access.log (and variants)
-*/var/log/apache2/error.log (and variants)
-*/proc/self/environ
-*The php:// scheme is available, but does not seem to work for sending code via POSTDATA.
-*The data:// scheme is available, but also does not seem to work for code inclusion.
+* /var/log/apache2/access.log (and variants)
+* /var/log/apache2/error.log (and variants)
+* /proc/self/environ
+* The php:// scheme is available, but does not seem to work for sending code via POSTDATA.
+* The data:// scheme is available, but also does not seem to work for code inclusion.
