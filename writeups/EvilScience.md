@@ -65,3 +65,31 @@ This confirms that I can include a variety of files - but not all of them. Some 
 * /proc/self/environ
 * The php:// scheme is available, but does not seem to work for sending code via POSTDATA.
 * The data:// scheme is available, but also does not seem to work for code inclusion.
+
+At this point, getting frustrated, I started going through every file I thought that *may* be accessible. Finally, after a good hour or so of enumeration, I discovered a log file that I have the ability to read: `/var/log/auth.log`. This file keeps a rolling record of attempts to login via SSH; including it gives us access to the contents of the file:
+
+```
+Nov 23 19:49:48 theEther sudo: pam_unix(sudo:session): session closed for user root
+Nov 23 19:49:53 theEther login[842]: pam_unix(login:session): session closed for user evilscience
+Nov 23 19:49:53 theEther systemd-logind[782]: Removed session 1.
+Nov 23 19:50:00 theEther sshd[872]: Received signal 15; terminating.
+Apr 19 16:02:53 theEther systemd-logind[701]: New seat seat0.
+Apr 19 16:02:53 theEther systemd-logind[701]: Watching system buttons on /dev/input/event0 (Power Button)
+Apr 19 16:02:53 theEther systemd-logind[701]: Watching system buttons on /dev/input/event1 (Sleep Button)
+Apr 19 16:02:53 theEther systemd-logind[701]: Watching system buttons on /dev/input/event3 (Video Bus)
+Apr 19 16:02:54 theEther sshd[752]: Server listening on 0.0.0.0 port 22.
+Apr 19 16:02:54 theEther sshd[752]: Server listening on :: port 22.
+Apr 19 16:02:54 theEther sshd[752]: Received SIGHUP; restarting.
+Apr 19 16:02:54 theEther sshd[752]: Server listening on 0.0.0.0 port 22.
+Apr 19 16:02:54 theEther sshd[752]: Server listening on :: port 22.
+Apr 19 16:02:54 theEther sshd[752]: Received SIGHUP; restarting.
+Apr 19 16:02:54 theEther sshd[752]: Server listening on 0.0.0.0 port 22.
+Apr 19 16:02:54 theEther sshd[752]: Server listening on :: port 22.
+Apr 19 16:04:59 theEther sshd[1067]: Invalid user test from 192.168.56.102
+Apr 19 16:04:59 theEther sshd[1067]: input_userauth_request: invalid user test [preauth]
+Apr 19 16:05:01 theEther sshd[1067]: Connection closed by 192.168.56.102 port 35362 [preauth]
+Apr 19 16:05:27 theEther sshd[1069]: Invalid user  from 192.168.56.102
+Apr 19 16:05:27 theEther sshd[1069]: input_userauth_request: invalid user  [preauth]
+Apr 19 16:05:29 theEther sshd[1069]: Connection closed by 192.168.56.102 port 35366 [preauth]
+```
+
