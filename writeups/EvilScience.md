@@ -149,3 +149,23 @@ python -c 'import pty; pty.spawn("/bin/bash")'
 This was enough to get me a nice interactive shell on the target system.
 
 ## The Log Auditor
+
+At this point, I performed the usual enumeration on the machine. Although I came across the `xxxlogauditxxxpy` file early on (it is in the webroot), I decided to follow the challenge creators advice and not waste too much time trying to deobfuscate the file. A quick glance at it revealed that it basically combines a bunch of encoded base64 strings, decodes them, and executes them with Python's eval() statement. This reveals an almost-identical piece of obfuscated code, which is decoded and executed, and so on.
+
+I decided to give the log audit file some more attention when running `LinEnum.sh`, the popular privilege escalation enumeration tool, revealed the following result:
+
+```
+User www-data may run the following commands on theEther:
+    (ALL) NOPASSWD: /var/www/html/theEther.com/public_html/xxxlogauditorxxx.py
+    (root) NOPASSWD: /var/www/html/theEther.com/public_html/xxxlogauditorxxx.py
+ ```
+ 
+ The file can be run as root - but what can I do with this? A cursory glance revealed that the most common ways of taking advantage of this kind of functionality would not work:
+ 
+ * I do not have write permission to the file, so I cannot replace it with my own code.
+ * I do not have write permission to `/usr/bin/python` or `/usr/bin/python2.7`, so I can't hijack the Python interpreter.
+ 
+ I decided to run the file and see what happens.
+ 
+ ```
+ ```
