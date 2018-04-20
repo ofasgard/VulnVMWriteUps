@@ -39,7 +39,7 @@ The only thing that stood out to me was the URI. When you visit any page other t
 
 `http://192.168.56.101/index.php?file=research.php`
 
-Obviously, the alarm bells immediately went off in my head: "LFI! LFI! LFI"!. It seems like a classic vector for file inclusion. To test whether this is indeed the case, I decided to download the Carinary template myself and have a look at what files it contains. After a couple false starts, I tried this:
+Obviously, the alarm bells immediately went off in my head: "LFI! LFI! LFI!". It seems like a classic vector for file inclusion. To test whether this is indeed the case, I decided to download the Carinary template myself and have a look at what files it contains. After a couple false starts, I tried this:
 
 `http://192.168.56.101/index.php?file=layout/styles/layout.css`
 
