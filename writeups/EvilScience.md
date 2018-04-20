@@ -152,7 +152,7 @@ This was enough to get me a nice interactive shell on the target system.
 
 At this point, I performed the usual enumeration on the machine. Although I came across the `xxxlogauditorxxx.py` file early on (it is in the webroot), I decided to follow the challenge creators advice and not waste too much time trying to deobfuscate the file. A quick glance at it revealed that it basically combines a bunch of encoded base64 strings, decodes them, and executes them with Python's eval() statement. This reveals an almost-identical piece of obfuscated code, which is decoded and executed, and so on.
 
-I decided to give the log audit file some more attention when running `LinEnum.sh`, the popular privilege escalation enumeration tool, revealed the following result:
+I decided to give the log audit file some more attention when running `LinEnum.sh`, the popular privesc enumeration tool, revealed the following result:
 
 ```
 User www-data may run the following commands on theEther:
@@ -165,7 +165,17 @@ User www-data may run the following commands on theEther:
  * I do not have write permission to the file, so I cannot replace it with my own code.
  * I do not have write permission to `/usr/bin/python` or `/usr/bin/python2.7`, so I can't hijack the Python interpreter.
  
- I decided to run the file and see what happens.
+ I decided to run the file (via sudo) and see what happens.
  
  ```
+ ===============================
+Log Auditor
+===============================
+Logs available
+-------------------------------
+/var/log/auth.log
+/var/log/apache2/access.log
+-------------------------------
+
+Load which log?: 
  ```
