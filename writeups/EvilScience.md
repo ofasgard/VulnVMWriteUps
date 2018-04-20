@@ -66,7 +66,11 @@ This confirms that I can include a variety of files - but not all of them. Some 
 * The php:// scheme is available, but does not seem to work for sending code via POSTDATA.
 * The data:// scheme is available, but also does not seem to work for code inclusion.
 
-At this point, getting frustrated, I started going through every file I thought that *may* be accessible. Finally, after a good hour or so of enumeration, I discovered a log file that I have the ability to read: `/var/log/auth.log`. This file keeps a rolling record of attempts to login via SSH; including it gives us access to the contents of the file:
+At this point, getting frustrated, I started going through every file I thought that *may* be accessible. Finally, after a good hour or so of enumeration, I discovered a log file that I have the ability to read: `/var/log/auth.log`. Although special characters in the file caused by browser to get confused, I could access it with curl:
+
+`curl "http://192.168.56.101/index.php?file=/var/log/auth.log"`
+
+This file keeps a rolling record of attempts to login via SSH; including it gives us access to the contents of the file:
 
 ```
 Nov 23 19:49:48 theEther sudo: pam_unix(sudo:session): session closed for user root
