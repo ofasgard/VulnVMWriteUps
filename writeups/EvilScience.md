@@ -127,7 +127,7 @@ This worked, giving me access to the contents of the `/var/www/html/theEther.com
 Although I had achieved a rudimentary PHP shell via `/var/log/auth.log`, there were a couple of problems with it:
 
 * It was transient. The auth.log file cycles regularly, and after a while my shell will disappear.
-* It was messy. The output of my files is interspersed with the contents of the log file.
+* It was messy. The output of my commands is interspersed with the contents of the log file.
 * It was non-interactive. This means I can't use sudo or any program that requires access to a TTY.
 
 With this in mind, I decided to set about improving my shell. The first problem was tackled easily enough:
