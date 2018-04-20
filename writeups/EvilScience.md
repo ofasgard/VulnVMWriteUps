@@ -147,3 +147,5 @@ python -c 'import pty; pty.spawn("/bin/bash")'
 ```
 
 This was enough to get me a nice interactive shell on the target system.
+
+## The Log Auditor
