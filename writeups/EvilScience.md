@@ -270,6 +270,10 @@ We have decided to stop conducting these experiments due to the lack of antidote
 --Document scheduled to be shredded on October 15th after PSA.
 ```
 
-Same it's such a cliche!
+Shame it's such a cliche!
 
 ## Afterword
+
+This was the most fun I've had on a CTF challenge so far. I'm still new to vulnerable VMs, but I feel like - for this machine in particular - my practice on OSCP labs went a long way. Many of the same concepts apply, and I found this challenge enjoably frustrating at times, forcing me to stop barreling ahead and think about the ramifications of the system I'm interacting with.
+
+Overall, I am glad that The Ether will no longer be able to work their sinister research, although I wouldn't mind some of those life-prolonging supplements if I'm going to be doing many more of these...
