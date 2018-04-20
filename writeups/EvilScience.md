@@ -45,7 +45,7 @@ Obviously, the alarm bells immediately went off in my head: "LFI! LFI! LFI"!. It
 
 As we may have expected, this dumps the contents of the layout.css file at the top of our index.php page. It seems we have successful file inclusion - the question is, how can we leverage it to compromise the system?
 
-## Getting RCE
+## Enumerating the LFI
 
 I decided to play around with the LFI a bit more to see what the limitations of my ability to read files is:
 
@@ -93,3 +93,6 @@ Apr 19 16:05:27 theEther sshd[1069]: input_userauth_request: invalid user  [prea
 Apr 19 16:05:29 theEther sshd[1069]: Connection closed by 192.168.56.102 port 35366 [preauth]
 ```
 
+## Getting RCE
+
+It is possible to use the auth.log file to inject PHP code into a page, but it is not easy. Every time a nonexistent user tries and fails to connect via SSH, their username gets logged into the file and remains there until it rolls over. If we're careful with the number of characters we use and make sure to escape shell characters, we can use this property to get very short snippets of PHP code into the auth log.
