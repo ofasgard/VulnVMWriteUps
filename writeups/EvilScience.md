@@ -70,7 +70,7 @@ At this point, getting frustrated, I started going through every file I thought 
 
 `curl "http://192.168.56.101/index.php?file=/var/log/auth.log"`
 
-This file keeps a rolling record of attempts to login via SSH; including it gives us access to the contents of the file:
+This file keeps a rolling record of attempts to login via SSH; including it gives us the following:
 
 ```
 Nov 23 19:49:48 theEther sudo: pam_unix(sudo:session): session closed for user root
