@@ -46,3 +46,22 @@ Obviously, the alarm bells immediately went off in my head: "LFI! LFI! LFI"!. It
 As we may have expected, this dumps the contents of the layout.css file at the top of our index.php page. It seems we have successful file inclusion - the question is, how can we leverage it to compromise the system?
 
 ## Getting RCE
+
+I decided to play around with the LFI a bit more to see what the limitations of my ability to read files is:
+
+```
+file=layout/styles/layout.css - successful file inclusion
+file=../../../../../../../../../../../../../../../../../../../bin/ls = works
+file=../../../../../../../../../../../../../../../../../../../etc/passwd = does not work
+file=../../../../../../../../../../../../../../../../../../../var/www/html/index.html = default page
+file=../../index.html = apache default page
+file=/bin/ls = works
+```
+
+This confirms that I can include a variety of files - but not all of them. Some files I would expect to be able to access, like /etc/passwd and /etc/issue, are not accessible to - indicating that whole directories are out of the question. I also found that a lot of the files and directories I would normally use to get PHP code execution are not available, including:
+
+*/var/log/apache2/access.log (and variants)
+*/var/log/apache2/error.log (and variants)
+*/proc/self/environ
+*The php:// scheme is available, but does not seem to work for sending code via POSTDATA.
+*The data:// scheme is available, but also does not seem to work for code inclusion.
