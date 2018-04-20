@@ -150,7 +150,7 @@ This was enough to get me a nice interactive shell on the target system.
 
 ## The Log Auditor
 
-At this point, I performed the usual enumeration on the machine. Although I came across the `xxxlogauditxxx.py` file early on (it is in the webroot), I decided to follow the challenge creators advice and not waste too much time trying to deobfuscate the file. A quick glance at it revealed that it basically combines a bunch of encoded base64 strings, decodes them, and executes them with Python's eval() statement. This reveals an almost-identical piece of obfuscated code, which is decoded and executed, and so on.
+At this point, I performed the usual enumeration on the machine. Although I came across the `xxxlogauditorxxx.py` file early on (it is in the webroot), I decided to follow the challenge creators advice and not waste too much time trying to deobfuscate the file. A quick glance at it revealed that it basically combines a bunch of encoded base64 strings, decodes them, and executes them with Python's eval() statement. This reveals an almost-identical piece of obfuscated code, which is decoded and executed, and so on.
 
 I decided to give the log audit file some more attention when running `LinEnum.sh`, the popular privilege escalation enumeration tool, revealed the following result:
 
