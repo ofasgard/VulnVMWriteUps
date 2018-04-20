@@ -121,3 +121,10 @@ I was able to test this with the following curl command:
 `curl "http://192.168.56.101/index.php?file=/var/log/auth.log&a=ls"`
 
 This worked, giving me access to the contents of the `/var/www/html/theEther.com/public_html/` directory.
+
+## Improving My Shell
+
+Although I had achieved a rudimentary PHP shell via /var/log/auth.log, there were a couple of problems with it:
+
+* It was transient. The auth.log file cycles regularly, and after a while my shell will disappear.
+*
