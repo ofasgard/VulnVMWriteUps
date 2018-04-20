@@ -96,3 +96,7 @@ Apr 19 16:05:29 theEther sshd[1069]: Connection closed by 192.168.56.102 port 35
 ## Getting RCE
 
 It is possible to use the auth.log file to inject PHP code into a page, but it is not easy. Every time a nonexistent user tries and fails to connect via SSH, their username gets logged into the file and remains there until it rolls over. If we're careful with the number of characters we use and make sure to escape shell characters, we can use this property to get very short snippets of PHP code into the auth log.
+
+The first step is to enumerate just how many characters we have to work with. After all, we only get one shot at this. If we inject a PHP snippet and it gets cut off before we get a chance to close it, the entire auth.log file will be useless to us until it rolls over. So I tried:
+
+`ssh "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@192.168.56.101"`
