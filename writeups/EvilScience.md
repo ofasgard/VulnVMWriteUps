@@ -202,7 +202,7 @@ Checking /tmp/test/txt after doing this confirmed that a file had been written t
 
 ## Getting a Root Shell
 
-With the ability to arbitrarily execute commands as root, getting to a superuser shell is only a matter of time. The method I decided to use was a simple one. I reused my reverse shell at `/tmp/shell.sh`, changing the port to 9999 and putting the new version at `/tmp/shell3.sh`. Then, while running a netcat listener, I did:
+With the ability to arbitrarily execute commands as root, getting to a superuser shell is only a matter of time. The method I decided to use was a simple one. I reused my reverse shell downloaded earlier, changing the port to 9999 and putting the new version at `/tmp/shell3.sh`. Then, while running a netcat listener, I did:
 
 ```
 Load which log?: /var/log/auth.log $(/bin/bash /tmp/shell3.sh)
