@@ -221,7 +221,7 @@ uid=0(root) gid=0(root) groups=0(root)
 # 
 ```
 
-I have a root shell! At this point, I reused `/tmp/shell2.sh` to upgrade my root shell into an interactive one.
+I have a root shell! At this point, I reused the other script from earlier to upgrade my root shell into an interactive one.
 
 ## Getting the Flag
 
